@@ -1,0 +1,192 @@
+<html>
+<head>
+    <title>AppsInSG</title>
+    <script src="https://unpkg.com/vue"></script>
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css" integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T" crossorigin="anonymous">
+    <link rel="stylesheet" type="text/css" href="assets/css/app.css"/>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/axios/0.16.2/axios.js"></script>
+</head>
+<body>
+
+<div class="container">
+
+
+<div id="app">
+    <div class="logo"></div>
+    <p class="tagline">{{tagline}}</p>
+
+    <nav class="navbar navbar-expand-lg navbar-light bg-light">
+        <a class="navbar-brand" href="#">Apps in SG</a>
+        <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+            <span class="navbar-toggler-icon"></span>
+        </button>
+
+        <div class="collapse navbar-collapse" id="navbarSupportedContent">
+            <ul class="navbar-nav mr-auto">
+                <li class="nav-item active">
+                    <a class="nav-link" href="#">All Apps <span class="sr-only">(current)</span></a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link" href="#ios" v-on:click="showiOS">iOS</a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link" href="#android" v-on:click="showAnd">Android</a>
+                </li>
+            </ul>
+        </div>
+    </nav>
+
+    <div v-if="allApps">
+        <div class="row">
+            <div class="col-4 " v-for="app in editedApp1">
+                <div class="app-item" v-on:click="showModal(app)">
+                    <img class="app-img" :src="'https://ryantan.github.io/apps-in-sg/apps/'+ app.image" />
+                    <div class="app-title-bar">
+                        <div class="app-title">{{app.title}}</div>
+                        <div class="app-icons">
+                            <div class="app-icon icon-apple" v-if="app.tags['mob-ios']"></div>
+                            <div class="app-icon icon-android" v-if="app.tags['mob-and']"></div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div v-if="iosOnly">
+        <div class="row">
+            <div class="col-4 " v-for="app in iosArray">
+                <div class="app-item" v-on:click="showModal(app)">
+                    <img class="app-img" :src="'https://ryantan.github.io/apps-in-sg/apps/'+ app.image" />
+                    <div class="app-title-bar">
+                        <div class="app-title">{{app.title}}</div>
+                        <div class="app-icons">
+                            <div class="app-icon icon-apple" v-if="app.tags['mob-ios']"></div>
+                            <div class="app-icon icon-android" v-if="app.tags['mob-and']"></div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div v-if="andOnly">
+        <div class="row">
+            <div class="col-4 " v-for="app in andArray">
+                <div class="app-item" v-on:click="showModal(app)">
+                    <img class="app-img" :src="'https://ryantan.github.io/apps-in-sg/apps/'+ app.image" />
+                    <div class="app-title-bar">
+                        <div class="app-title">{{app.title}}</div>
+                        <div class="app-icons">
+                            <div class="app-icon icon-apple" v-if="app.tags['mob-ios']"></div>
+                            <div class="app-icon icon-android" v-if="app.tags['mob-and']"></div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!--Modal-->
+    <div class="app-modal" v-if="appModal">
+        <div class="app-modal-close" v-on:click="showModal(null)"> [x] </div>
+        <div class="app-modal-title">{{appItem.title}}</div>
+        <a class="app-modal-URL" :href="appItem.url">Visit Us!</a>
+        <div class="app-modal-tagline">Our Tagline: {{appItem.tagline}}</div>
+        <div class="app-modal-coy">Company: {{appItem.coy}}</div>
+    </div>
+
+    </div>
+
+</div>
+
+
+<script type="text/javascript">
+
+
+    new Vue({
+        el: '#app',
+        data: {
+            allApps: true, //show all apps if not filtered
+            iosOnly: false,
+            andOnly: false,
+            appModal: false,
+            sitename: "AppsInSG",
+            tagline: "Showcasing apps designed and built in Singapore",
+            //apps: newApps, //processed existing array
+            app1: [],
+            iosApps: [],
+            andApps: [],
+
+            appItem:{}
+        },
+        methods: {
+            showiOS: function() {
+                this.allApps = false;
+                this.iosOnly = true;
+                this.andOnly = false;
+            },
+            showAnd: function() {
+                this.allApps = false;
+                this.andOnly = true;
+                this.iosOnly = false;
+            },
+            showModal: function(appItem) {
+                this.appModal = this.appModal ? false:true;
+                return this.appItem = appItem;
+            }
+        },
+
+        created: async function () {
+            await axios.get('https://ryantan.github.io/apps-in-sg/apps.json') //ensure that the function gets the data first
+                .then((response) => {
+                    this.app1 = response.data;
+                });
+
+        },
+        computed: {
+            editedApp1: function() {
+                //process existing array to change tags string -> array
+                var newApps = [];
+                for (var i = 0; i < this.app1.length; i++){
+                    var newApp = this.app1[i];
+                    var title = newApp.title;
+                    var newTags = {};
+                    var tags = (newApp.tags).split(' ');
+                    for (var j = 0; j < tags.length; j++) {
+                        newTags[tags[j]] = true;
+                    }
+                    newApp.tags = newTags;
+
+                    if (title != 'WOMP - WhatsOnMyPlate' && title != 'GO Note' ){ //remove offending apps
+                        newApps.push(newApp);
+                    }
+                }
+                return this.app1 = newApps;
+            },
+            iosArray: function() {
+                 var iosApps = [];
+                 for (var i = 0; i < this.app1.length; i++){
+                     if (this.app1[i].tags['mob-ios']){
+                         iosApps.push(this.app1[i]);
+                     }
+                 }
+                 return iosApps;
+            },
+            andArray: function() {
+                 var andApps = [];
+                 for (var i = 0; i < this.app1.length; i++){
+                     if (this.app1[i].tags['mob-and']){
+                         andApps.push(this.app1[i]);
+                     }
+                 }
+                 return andApps;
+            }
+
+        }
+    })
+
+</script>
+</body>
+</html>
+
+
+
