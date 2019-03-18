@@ -43,19 +43,29 @@
 
       <div class="collapse navbar-collapse" id="navbarSupportedContent">
         <ul class="navbar-nav mr-auto">
-          <li :class="['nav-item', currentFilter ? '' : 'isActive', 'desktop-filter']">
+          <li :class="['nav-item', 'desktop-filter', currentFilter ? '' : 'isActive']">
             <a class="nav-link" href="#" @click.stop="showAll">All
               <span v-if="!currentFilter" class="sr-only">(current)</span>
             </a>
           </li>
-          <li :class="['nav-item', currentFilter === 'mob-ios' ? 'isActive' : '', 'desktop-filter']">
+          <li :class="['nav-item', 'desktop-filter', currentFilter === 'mob-ios' ? 'isActive' : '']">
             <a class="nav-link" href="#ios" @click.stop="showiOS">iOS
               <span v-if="currentFilter==='mob-ios'" class="sr-only">(current)</span>
             </a>
           </li>
-          <li :class="['nav-item', currentFilter === 'mob-and' ? 'isActive' : '', 'desktop-filter']">
+          <li :class="['nav-item', 'desktop-filter', currentFilter === 'mob-and' ? 'isActive' : '']">
             <a class="nav-link" href="#android" @click.stop="showAnd">Android
               <span v-if="currentFilter==='mob-and'" class="sr-only">(current)</span>
+            </a>
+          </li>
+          <li :class="['nav-item', 'desktop-filter', currentFilter === 'web' ? 'isActive' : '']">
+            <a class="nav-link" href="#web" @click.stop="showWeb">Web
+              <span v-if="currentFilter==='web'" class="sr-only">(current)</span>
+            </a>
+          </li>
+          <li :class="['nav-item', 'desktop-filter', currentFilter === 'desk' ? 'isActive' : '']">
+            <a class="nav-link" href="#desktop" @click.stop="showDesktop">Desktop
+              <span v-if="currentFilter==='desk'" class="sr-only">(current)</span>
             </a>
           </li>
           <li class="nav-item">
@@ -70,6 +80,8 @@
         <button type="button" class="btn btn-secondary" @click="showAll">All</button>
         <button type="button" class="btn btn-secondary" @click="showiOS">iOS</button>
         <button type="button" class="btn btn-secondary" @click="showAnd">Android</button>
+        <button type="button" class="btn btn-secondary" @click="showWeb">Web</button>
+        <button type="button" class="btn btn-secondary" @click="showDesktop">Desktop</button>
       </div>
     </div>
 
@@ -82,6 +94,8 @@
             <div class="app-icons">
               <div class="app-icon icon-apple" v-if="app.tags['mob-ios']"></div>
               <div class="app-icon icon-android" v-if="app.tags['mob-and']"></div>
+              <div class="app-icon icon-web" v-if="app.tags['web']"></div>
+              <div class="app-icon icon-desktop" v-if="app.tags['desk']"></div>
             </div>
           </div>
         </div>
@@ -118,6 +132,8 @@
                   <!--<span>Available on:</span>-->
                   <div class="app-icon icon-apple" v-if="appItem.tags['mob-ios']"></div>
                   <div class="app-icon icon-android" v-if="appItem.tags['mob-and']"></div>
+                  <div class="app-icon icon-web" v-if="appItem.tags['web']"></div>
+                  <div class="app-icon icon-desktop" v-if="appItem.tags['desk']"></div>
                 </div>
               </div>
             </div>
@@ -182,8 +198,13 @@
         this.currentFilter = 'mob-ios';
       },
       showAnd: function () {
-        console.log('Show android');
         this.currentFilter = 'mob-and';
+      },
+      showWeb: function () {
+        this.currentFilter = 'web';
+      },
+      showDesktop: function () {
+        this.currentFilter = 'desk';
       },
       showModal: function (appItem) {
         this.trackApp(appItem);
