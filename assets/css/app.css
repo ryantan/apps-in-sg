@@ -29,24 +29,36 @@ header h1{
     text-align: center;
 }
 
-.app-modal{
-    background-color: white;
-    position: fixed;
-    top: 15px;
-    margin-left: auto;
-    margin-right: auto;
-
-    padding: 20px 10px;
-    border: solid 1px;
-    border-radius: 6px;
-    width: 85%;
-    height: 60%;
+.app-modal__tagline {
+    padding: 32px;
+    background-color: #F8F8F8;
+    border-radius: 8px;
+    margin: 16px 0 32px;
 }
 
-.app-modal-close {
-    cursor: pointer;
-    text-align: right;
-    padding: 10px 36px;
+.app-modal__coy {
+    /*float: left;*/
+}
+.app-modal__platforms {
+    background-color: #333;
+    float: right;
+    padding: 8px;
+    border-radius: 8px;
+    color: #F8F8F8;
+}
+
+.app-modal__platforms .app-icon {
+    vertical-align: middle;
+}
+
+.app-modal__platforms > span {
+    font-size: 12px;
+    padding-right: 8px;
+    line-height: 26px;
+}
+
+.app-modal__link {
+    margin: 32px auto 0;
 }
 
 .app-item {
@@ -56,8 +68,6 @@ header h1{
     border-radius: 8px;
     overflow: hidden;
 }
-
-
 
 .app-title-bar {
     display: none;

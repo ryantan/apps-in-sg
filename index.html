@@ -102,12 +102,32 @@
     </div>
 
     <!--Modal-->
-    <div class="app-modal" v-if="appModal">
-      <div class="app-modal-close" v-on:click="showModal(null)"> [x]</div>
-      <div class="app-modal-title">{{appItem.title}}</div>
-      <a class="app-modal-URL" :href="appItem.url">Visit Us!</a>
-      <div class="app-modal-tagline">Our Tagline: {{appItem.tagline}}</div>
-      <div class="app-modal-coy">Company: {{appItem.coy}}</div>
+    <div id="appModal" class="modal fade app-modal" tabindex="-1" role="dialog" aria-labelledby="appModalLabel"
+         aria-hidden="true">
+      <div class="modal-dialog">
+        <div class="modal-content">
+
+          <div class="modal-header">
+            <h5 class="modal-title app-modal__title" id="appModalLabel">{{appItem.title}}</h5>
+          </div>
+
+          <div class="modal-body" v-if="appItem">
+            <div class="app-modal__tagline">{{appItem.tagline}}</div>
+            <div class="row">
+              <div class="col-12 col-md-6 app-modal__coy">By: {{appItem.coy}}</div>
+              <div class="col-12 col-md-6 clearfix">
+                <div class="app-modal__platforms" v-if="appItem.tags">
+                  <!--<span>Available on:</span>-->
+                  <div class="app-icon icon-apple" v-if="appItem.tags['mob-ios']"></div>
+                  <div class="app-icon icon-android" v-if="appItem.tags['mob-and']"></div>
+                </div>
+              </div>
+            </div>
+            <a class="btn btn-primary btn-block app-modal__link" :href="appItem.url" @click="trackAppVisit(appItem)"
+               target="_blank">Go to app</a>
+          </div>
+        </div>
+      </div>
     </div>
 
   </div>
@@ -142,7 +162,6 @@
   new Vue({
     el: '#app',
     data: {
-      appModal: false,
       sitename: "AppsInSG",
       tagline: "Showcasing apps designed and built in Singapore",
       apps: [],
@@ -162,9 +181,24 @@
         this.currentFilter = 'mob-and';
       },
       showModal: function (appItem) {
-        this.appModal = !this.appModal;
-        return this.appItem = appItem;
-      }
+        this.trackApp(appItem);
+        this.appItem = appItem;
+        $('#appModal').modal();
+      },
+      trackApp: function (appItem) {
+        gtag('event', 'view_item', {
+          'event_action': 'view',
+          'event_category': 'engagement',
+          'event_label': appItem.key,
+        });
+      },
+      trackAppVisit: function (appItem) {
+        gtag('event', 'visit_app', {
+          'event_action': 'visit',
+          'event_category': 'engagement',
+          'event_label': appItem.key,
+        });
+      },
     },
     created: async function () {
       // Wait for the response.
@@ -219,6 +253,3 @@
 </script>
 </body>
 </html>
-
-
-
