@@ -176,6 +176,14 @@ header h1{
     }
 }
 
+.copyright {
+    text-align: center;
+    margin-top: 48px;
+    color:#BBB;
+    font-size: 9pt;
+    margin-bottom: 50px;
+}
+
 .faq-list {
 
 }
