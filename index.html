@@ -27,6 +27,7 @@
   <link rel="stylesheet" type="text/css" href="assets/css/app.css"/>
   <script src="https://cdnjs.cloudflare.com/ajax/libs/axios/0.16.2/axios.js"></script>
   <script src="https://unpkg.com/vue"></script>
+  <script src="https://unpkg.com/vue-lazyload/vue-lazyload.js"></script>
 </head>
 <body>
 
@@ -78,7 +79,7 @@
     <div class="row">
       <div class="col-12 col-sm-6 col-lg-4" v-for="app in filteredApps">
         <div class="app-item" v-on:click="showModal(app)">
-          <img class="app-img" :src="'https://ryantan.github.io/apps-in-sg/apps/'+ app.image"/>
+          <img class="app-img"  v-lazy="'/apps/'+ app.image"/>
           <div class="app-title-bar">
             <div class="app-title">{{app.title}}</div>
             <div class="app-icons">
@@ -158,7 +159,7 @@
 
 
 <script type="text/javascript">
-
+  Vue.use(VueLazyload);
   new Vue({
     el: '#app',
     data: {
