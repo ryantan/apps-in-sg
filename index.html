@@ -22,12 +22,9 @@
 
   <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css"
         integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T" crossorigin="anonymous">
-  <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.3.1/jquery.js"></script>
-  <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/js/bootstrap.min.js"></script>
   <link rel="stylesheet" type="text/css" href="assets/css/app.css"/>
-  <script src="https://cdnjs.cloudflare.com/ajax/libs/axios/0.16.2/axios.js"></script>
-  <script src="https://unpkg.com/vue"></script>
-  <script src="https://unpkg.com/vue-lazyload/vue-lazyload.js"></script>
+
+
 </head>
 <body>
 
@@ -47,7 +44,7 @@
       <div class="collapse navbar-collapse" id="navbarSupportedContent">
         <ul class="navbar-nav mr-auto">
           <li :class="['nav-item', currentFilter ? '' : 'isActive', 'desktop-filter']">
-            <a class="nav-link" href="#" @click.stop.prevent="showAll">All
+            <a class="nav-link" href="#" @click.stop="showAll">All
               <span v-if="!currentFilter" class="sr-only">(current)</span>
             </a>
           </li>
@@ -69,7 +66,7 @@
     </nav>
 
     <div class="mobile-filters">
-      <div class="btn-group" role="group" aria-label="Mobile filters">
+      <div class="btn-group btn-block" role="group" aria-label="Mobile filters">
         <button type="button" class="btn btn-secondary" @click="showAll">All</button>
         <button type="button" class="btn btn-secondary" @click="showiOS">iOS</button>
         <button type="button" class="btn btn-secondary" @click="showAnd">Android</button>
@@ -77,9 +74,9 @@
     </div>
 
     <div class="row">
-      <div class="col-12 col-sm-6 col-lg-4" v-for="app in filteredApps">
-        <div class="app-item" v-on:click="showModal(app)">
-          <img class="app-img"  v-lazy="'/apps/'+ app.image"/>
+      <div class="col-12 col-sm-6 col-lg-4" v-for="app in filteredApps" :key="app.key">
+        <div class="app-item" @click="showModal(app)">
+          <img class="app-img" data-src="http://appsinsg.com/apps/ryde.png" v-lazy="app.image"/>
           <div class="app-title-bar">
             <div class="app-title">{{app.title}}</div>
             <div class="app-icons">
@@ -157,19 +154,25 @@
   </footer>
 </div>
 
-
+<script src="https://unpkg.com/vue"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.3.1/jquery.js"></script>
+<script src="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/js/bootstrap.min.js"></script>
+<script src="https://unpkg.com/vue-lazyload/vue-lazyload.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/axios/0.16.2/axios.js"></script>
 <script type="text/javascript">
   Vue.use(VueLazyload);
   new Vue({
     el: '#app',
-    data: {
-      sitename: "AppsInSG",
-      tagline: "Showcasing apps designed and built in Singapore",
-      apps: [],
+    data() {
+      return {
+        sitename: "AppsInSG",
+        tagline: "Showcasing apps designed and built in Singapore",
+        apps: [],
 
-      // Selected app.
-      appItem: {},
-      currentFilter: null,
+        // Selected app.
+        appItem: {},
+        currentFilter: null,
+      };
     },
     methods: {
       showAll: function () {
@@ -179,6 +182,7 @@
         this.currentFilter = 'mob-ios';
       },
       showAnd: function () {
+        console.log('Show android');
         this.currentFilter = 'mob-and';
       },
       showModal: function (appItem) {
@@ -200,40 +204,43 @@
           'event_label': appItem.key,
         });
       },
+      preprocessApps: function(raw) {
+        const processed = [];
+        for (var i = 0; i < raw.length; i++) {
+          var newApp = raw[i];
+
+          // Remove some apps with incomplete info.
+          // @TODO: Instead of hardcoding titles here, checek for empty required values.
+          if (newApp.title === 'WOMP - WhatsOnMyPlate' || newApp.title === 'GO Note') {
+            continue;
+          }
+
+          var newTags = {};
+          newApp.tags_string = newApp.tags;
+          var tags = (newApp.tags_string).split(' ');
+          for (var j = 0; j < tags.length; j++) {
+            newTags[tags[j]] = true;
+          }
+          newApp.tags = newTags;
+          newApp.image = '/apps/' + newApp.image;
+
+          processed.push(newApp);
+        }
+
+        console.log('processed:', processed);
+        return processed;
+      },
     },
     created: async function () {
       // Wait for the response.
       await axios.get('/apps.json')
         .then((response) => {
-
-          //this.apps = response.data;
-          const raw = response.data;
-          const processed = [];
-          for (var i = 0; i < raw.length; i++) {
-            var newApp = raw[i];
-            var title = newApp.title;
-
-            // Remove some apps with incomplete info.
-            // @TODO: Instead of hardcoding titles here, checek for empty required values.
-            if (title === 'WOMP - WhatsOnMyPlate' || title === 'GO Note') {
-              continue;
-            }
-
-            var newTags = {};
-            var tags = (newApp.tags).split(' ');
-            for (var j = 0; j < tags.length; j++) {
-              newTags[tags[j]] = true;
-            }
-            newApp.tags = newTags;
-
-            processed.push(newApp);
-          }
-
-          this.apps = processed;
+          this.apps = this.preprocessApps(response.data);
         });
     },
     computed: {
       filteredApps: function () {
+        console.log('filteredApps, this.currentFilter:', this.currentFilter);
 
         // If no filter defined, return whole list.
         if (!this.currentFilter) {
@@ -243,9 +250,12 @@
         const filtered = [];
         for (var i = 0; i < this.apps.length; i++) {
           if (this.apps[i].tags[this.currentFilter]) {
+
+            // console.log('Adding ', this.apps[i]);
             filtered.push(this.apps[i]);
           }
         }
+        console.log('filtered:', filtered, ', length:', filtered.length);
         return filtered;
       },
     }
