@@ -10,18 +10,14 @@ header h1{
     }
 }
 
-.col-4 {
-    padding-bottom: 18px;
-}
-
 .navbar {
     margin-bottom: 24px;
 }
+
 .logo {
     width: 204px;
     height: 48px;
-    margin-left: auto;
-    margin-right: auto;
+    margin: 16px auto;
 
     background-image:url("../images/logo.png");
     background-repeat: no-repeat;
@@ -55,7 +51,13 @@ header h1{
 
 .app-item {
     position: relative;
+    margin-bottom: 16px;
+    /*min-height: 174px;*/
+    border-radius: 8px;
+    overflow: hidden;
 }
+
+
 
 .app-title-bar {
     display: none;
@@ -66,8 +68,8 @@ header h1{
     left: 0;
     right: 0;
     bottom: 0;
-    border-bottom-left-radius: 8px;
-    border-bottom-right-radius: 8px;
+    /*border-bottom-left-radius: 8px;*/
+    /*border-bottom-right-radius: 8px;*/
 }
 
 .app-title {
@@ -76,7 +78,6 @@ header h1{
 
 .app-img {
     width: 100%;
-    border-radius: 8px;
 }
 
 .app-icon {
@@ -106,3 +107,79 @@ header h1{
     cursor: pointer;
 }
 
+.submit-item-wrapper {
+    position: relative;
+    width: 100%;
+    padding-bottom: 60%;
+    float: left;
+    height: 0;
+}
+
+.submit-item {
+    background-color: #F8F8F8;
+    width: 100%;
+    height: 100%;
+    position: absolute;
+    left: 0;
+}
+
+.submit-item h3 {
+    font-size: 24px;
+    margin: 16px auto 32px;
+}
+
+.submit-link {
+    display: block;
+    padding: 32px 16px;
+
+    color: #666;
+    text-align: center;
+}
+.submit-link:hover, .submit-link:active {
+    color: #333;
+    text-decoration: none;
+}
+
+.mobile-filters {
+    margin: 16px auto 32px;
+}
+
+.desktop-filter {
+    display: none;
+}
+@media screen and (min-width: 992px) {
+
+    .logo {
+        margin-top: 32px;
+    }
+
+    .mobile-filters {
+        display: none;
+    }
+
+    .desktop-filter {
+        display: block;
+    }
+
+    .submit-item h3 {
+        font-size: 14px;
+        margin: 16px auto;
+    }
+}
+
+@media screen and (min-width: 1200px) {
+
+
+    .submit-item h3 {
+        font-size: 24px;
+        margin: 32px auto;
+    }
+}
+
+.faq-list {
+
+}
+
+.faq-list li {
+    margin-bottom: 32px;
+}

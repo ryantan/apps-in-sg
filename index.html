@@ -1,55 +1,21 @@
 <html>
 <head>
+    <meta name="viewport" content="width=device-width, initial-scale=1">
     <title>AppsInSG</title>
     <script src="https://unpkg.com/vue"></script>
     <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css" integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T" crossorigin="anonymous">
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.3.1/jquery.js"></script>
+    <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/js/bootstrap.min.js"></script>
     <link rel="stylesheet" type="text/css" href="assets/css/app.css"/>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/axios/0.16.2/axios.js"></script>
 </head>
 <body>
 
-<div class="container">
-
 
 <div id="app">
+<div class="container">
     <div class="logo"></div>
     <p class="tagline">{{tagline}}</p>
-
-    <nav class="navbar navbar-expand-lg navbar-light bg-light">
-        <a class="navbar-brand" href="#">Navbar</a>
-        <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
-            <span class="navbar-toggler-icon"></span>
-        </button>
-
-        <div class="collapse navbar-collapse" id="navbarSupportedContent">
-            <ul class="navbar-nav mr-auto">
-                <li class="nav-item active">
-                    <a class="nav-link" href="#">Home <span class="sr-only">(current)</span></a>
-                </li>
-                <li class="nav-item">
-                    <a class="nav-link" href="#">Link</a>
-                </li>
-                <li class="nav-item dropdown">
-                    <a class="nav-link dropdown-toggle" href="#" id="navbarDropdown" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-                        Dropdown
-                    </a>
-                    <div class="dropdown-menu" aria-labelledby="navbarDropdown">
-                        <a class="dropdown-item" href="#">Action</a>
-                        <a class="dropdown-item" href="#">Another action</a>
-                        <div class="dropdown-divider"></div>
-                        <a class="dropdown-item" href="#">Something else here</a>
-                    </div>
-                </li>
-                <li class="nav-item">
-                    <a class="nav-link disabled" href="#" tabindex="-1" aria-disabled="true">Disabled</a>
-                </li>
-            </ul>
-            <form class="form-inline my-2 my-lg-0">
-                <input class="form-control mr-sm-2" type="search" placeholder="Search" aria-label="Search">
-                <button class="btn btn-outline-success my-2 my-sm-0" type="submit">Search</button>
-            </form>
-        </div>
-    </nav>
 
     <nav class="navbar navbar-expand-lg navbar-light bg-light">
         <a class="navbar-brand" href="#">Apps in SG</a>
@@ -59,85 +25,71 @@
 
         <div class="collapse navbar-collapse" id="navbarSupportedContent">
             <ul class="navbar-nav mr-auto">
-                <li class="nav-item active">
-                    <a class="nav-link" href="#">All Apps <span class="sr-only">(current)</span></a>
+                <li :class="['nav-item', currentFilter ? '' : 'isActive', 'desktop-filter']">
+                    <a class="nav-link" href="#" @click.stop.prevent="showAll">All <span v-if="!currentFilter" class="sr-only">(current)</span></a>
+                </li>
+                <li :class="['nav-item', currentFilter === 'mob-ios' ? 'isActive' : '', 'desktop-filter']">
+                    <a class="nav-link" href="#ios" @click.stop="showiOS">iOS <span v-if="currentFilter==='mob-ios'" class="sr-only">(current)</span></a>
+                </li>
+                <li :class="['nav-item', currentFilter === 'mob-and' ? 'isActive' : '', 'desktop-filter']">
+                    <a class="nav-link" href="#android" @click.stop="showAnd">Android <span v-if="currentFilter==='mob-and'" class="sr-only">(current)</span></a>
                 </li>
                 <li class="nav-item">
-                    <a class="nav-link" href="#ios" v-on:click="showiOS">iOS</a>
-                </li>
-                <li class="nav-item">
-                    <a class="nav-link" href="#android" v-on:click="showAnd">Android</a>
+                    <a class="nav-link" href="/faq">FAQ</a>
                 </li>
             </ul>
         </div>
     </nav>
 
-    <div v-if="allApps">
-        <div class="row">
-            <div class="col-4 " v-for="app in editedApp1">
-                <div class="app-item" v-on:click="showModal(app)">
-                    <img class="app-img" :src="'https://ryantan.github.io/apps-in-sg/apps/'+ app.image" />
-                    <div class="app-title-bar">
-                        <div class="app-title">{{app.title}}</div>
-                        <div class="app-icons">
-                            <div class="app-icon icon-apple" v-if="app.tags['mob-ios']"></div>
-                            <div class="app-icon icon-android" v-if="app.tags['mob-and']"></div>
-                        </div>
+    <div class="mobile-filters">
+        <div class="btn-group" role="group" aria-label="Mobile filters">
+            <button type="button" class="btn btn-secondary" @click="showAll">All</button>
+            <button type="button" class="btn btn-secondary" @click="showiOS">iOS</button>
+            <button type="button" class="btn btn-secondary" @click="showAnd">Android</button>
+        </div>
+    </div>
+
+    <div class="row">
+        <div class="col-12 col-sm-6 col-lg-4" v-for="app in filteredApps">
+            <div class="app-item" v-on:click="showModal(app)">
+                <img class="app-img" :src="'https://ryantan.github.io/apps-in-sg/apps/'+ app.image" />
+                <div class="app-title-bar">
+                    <div class="app-title">{{app.title}}</div>
+                    <div class="app-icons">
+                        <div class="app-icon icon-apple" v-if="app.tags['mob-ios']"></div>
+                        <div class="app-icon icon-android" v-if="app.tags['mob-and']"></div>
                     </div>
                 </div>
             </div>
         </div>
-    </div>
-    <div v-if="iosOnly">
-        <div class="row">
-            <div class="col-4 " v-for="app in iosArray">
-                <div class="app-item" v-on:click="showModal(app)">
-                    <img class="app-img" :src="'https://ryantan.github.io/apps-in-sg/apps/'+ app.image" />
-                    <div class="app-title-bar">
-                        <div class="app-title">{{app.title}}</div>
-                        <div class="app-icons">
-                            <div class="app-icon icon-apple" v-if="app.tags['mob-ios']"></div>
-                            <div class="app-icon icon-android" v-if="app.tags['mob-and']"></div>
-                        </div>
-                    </div>
-                </div>
-            </div>
-        </div>
-    </div>
-    <div v-if="andOnly">
-        <div class="row">
-            <div class="col-4 " v-for="app in andArray">
-                <div class="app-item" v-on:click="showModal(app)">
-                    <img class="app-img" :src="'https://ryantan.github.io/apps-in-sg/apps/'+ app.image" />
-                    <div class="app-title-bar">
-                        <div class="app-title">{{app.title}}</div>
-                        <div class="app-icons">
-                            <div class="app-icon icon-apple" v-if="app.tags['mob-ios']"></div>
-                            <div class="app-icon icon-android" v-if="app.tags['mob-and']"></div>
-                        </div>
-                    </div>
+        <div class="col-12 col-sm-6 col-lg-4">
+            <div class="app-item submit-item-wrapper">
+                <div class="submit-item">
+                    <a href="https://docs.google.com/forms/d/1zf-3X5-6UCs86-WKP28Hun5rip7x1FuMY60648pjjXI/viewform" target="_blank" class="submit-link">
+                        <h3>Making apps in Singapore?</h3>
+                        <button type="button" class="btn btn-primary">Submit your app</button>
+                    </a>
                 </div>
             </div>
         </div>
     </div>
 
     <!--Modal-->
-        <div class="app-modal" v-if="appModal">
-            <div class="app-modal-close" v-on:click="showModal(null)"> [x] </div>
-            <div class="app-modal-title">{{appItem.title}}</div>
-            <a class="app-modal-URL" :href="appItem.url">Visit Us!</a>
-            <div class="app-modal-tagline">Our Tagline: {{appItem.tagline}}</div>
-            <div class="app-modal-coy">Company: {{appItem.coy}}</div>
-        </div>
-
-
+    <div class="app-modal" v-if="appModal">
+        <div class="app-modal-close" v-on:click="showModal(null)"> [x] </div>
+        <div class="app-modal-title">{{appItem.title}}</div>
+        <a class="app-modal-URL" :href="appItem.url">Visit Us!</a>
+        <div class="app-modal-tagline">Our Tagline: {{appItem.tagline}}</div>
+        <div class="app-modal-coy">Company: {{appItem.coy}}</div>
     </div>
+
+
+</div>
 
 </div>
 
 
 <script type="text/javascript">
-
 
     new Vue({
         el: '#app',
@@ -148,76 +100,74 @@
             appModal: false,
             sitename: "AppsInSG",
             tagline: "Showcasing apps designed and built in Singapore",
-            //apps: newApps, //processed existing array
-            app1: [],
-            iosApps: [],
-            andApps: [],
+            apps: [],
 
-            appItem:{}
+          // Selected app.
+            appItem: {},
+            currentFilter: null,
         },
         methods: {
+            showAll: function() {
+              this.currentFilter = null;
+            },
             showiOS: function() {
-                this.allApps = false;
-                this.iosOnly = true;
-                this.andOnly = false;
+              this.currentFilter = 'mob-ios';
             },
             showAnd: function() {
-                this.allApps = false;
-                this.andOnly = true;
-                this.iosOnly = false;
+              this.currentFilter = 'mob-and';
             },
             showModal: function(appItem) {
-                this.appModal = this.appModal ? false:true;
+                this.appModal = !this.appModal;
                 return this.appItem = appItem;
             }
         },
-
         created: async function () {
-            await axios.get('https://ryantan.github.io/apps-in-sg/apps.json') //ensure that the function gets the data first
+            // Wait for the response.
+            await axios.get('https://ryantan.github.io/apps-in-sg/apps.json')
                 .then((response) => {
-                    this.app1 = response.data;
-                });
 
-        },
-        computed: {
-            editedApp1: function() {
-                //process existing array to change tags string -> array
-                var newApps = [];
-                for (var i = 0; i < this.app1.length; i++){
-                    var newApp = this.app1[i];
+                  //this.apps = response.data;
+                  const raw = response.data;
+                  const propcessed = [];
+                  for (var i = 0; i < raw.length; i++){
+                    var newApp = raw[i];
                     var title = newApp.title;
+
+                    // Remove some apps with incomplete info.
+                    // @TODO: Instead of hardcoding titles here, checek for empty required values.
+                    if (title === 'WOMP - WhatsOnMyPlate' || title === 'GO Note' ){
+                      continue;
+                    }
+
                     var newTags = {};
                     var tags = (newApp.tags).split(' ');
                     for (var j = 0; j < tags.length; j++) {
-                        newTags[tags[j]] = true;
+                      newTags[tags[j]] = true;
                     }
                     newApp.tags = newTags;
 
-                    if (title != 'WOMP - WhatsOnMyPlate' && title != 'GO Note' ){ //remove offending apps
-                        newApps.push(newApp);
-                    }
-                }
-                return this.app1 = newApps;
-            },
-            iosArray: function() {
-                 var iosApps = [];
-                 for (var i = 0; i < this.app1.length; i++){
-                     if (this.app1[i].tags['mob-ios']){
-                         iosApps.push(this.app1[i]);
-                     }
-                 }
-                 return iosApps;
-            },
-            andArray: function() {
-                 var andApps = [];
-                 for (var i = 0; i < this.app1.length; i++){
-                     if (this.app1[i].tags['mob-and']){
-                         andApps.push(this.app1[i]);
-                     }
-                 }
-                 return andApps;
+                    propcessed.push(newApp);
+                  }
+
+                    this.apps = propcessed;
+                });
+        },
+        computed: {
+          filteredApps: function() {
+
+            // If no filter defined, return whole list.
+            if (!this.currentFilter) {
+              return this.apps;
             }
 
+            const filtered = [];
+            for (var i = 0; i < this.apps.length; i++){
+              if (this.apps[i].tags[this.currentFilter]){
+                filtered.push(this.apps[i]);
+              }
+            }
+            return filtered;
+          },
         }
     })
 
