@@ -202,7 +202,7 @@
     },
     created: async function () {
       // Wait for the response.
-      await axios.get('https://ryantan.github.io/apps-in-sg/apps.json')
+      await axios.get('/apps.json')
         .then((response) => {
 
           //this.apps = response.data;
