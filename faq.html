@@ -1,0 +1,76 @@
+<html>
+<head>
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>AppsInSG</title>
+    <script src="https://unpkg.com/vue"></script>
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css" integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T" crossorigin="anonymous">
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.3.1/jquery.js"></script>
+    <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/js/bootstrap.min.js"></script>
+    <link rel="stylesheet" type="text/css" href="assets/css/app.css"/>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/axios/0.16.2/axios.js"></script>
+</head>
+<body>
+
+
+<div id="app">
+<div class="container">
+    <div class="logo"></div>
+    <p class="tagline">{{tagline}}</p>
+
+    <nav class="navbar navbar-expand-lg navbar-light bg-light">
+        <a class="navbar-brand" href="/">Apps in SG</a>
+        <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+            <span class="navbar-toggler-icon"></span>
+        </button>
+
+        <div class="collapse navbar-collapse" id="navbarSupportedContent">
+            <ul class="navbar-nav mr-auto">
+                <!--<li class="nav-item">-->
+                    <!--<a class="nav-link" href="/">Directory</a>-->
+                <!--</li>-->
+                <li class="nav-item isActive">
+                    <a class="nav-link" href="/faq">FAQ <span class="sr-only">(current)</span></a>
+                </li>
+            </ul>
+        </div>
+    </nav>
+
+    <div>
+        <div>
+            <h4><strong>Submitted your app but not yet listed?</strong></h4>
+            <p>To maintain a certain quality of apps in the list, here are some common issues which may cause delays or rejections:</p>
+            <ol class="faq-list">
+                <li><strong>Wrong dimension or badly designed cover image</strong> - I want to present your apps in the best light possible, you do so too. 50% of the cover images currently listed have been created from scratch by myself over weekends so please understand if it should take a little longer :)</li>
+                <li><strong>Difficulty of verifying app origins</strong> - Some of the apps submitted have little or no contact info, or info on the company and it makes it hard for me to verify that the app is indeed made in Singapore. I usually keep them in my backlog when I see these apps.</li>
+                <li><strong>Overly simple utility apps</strong> - If your app is simply a wrapper for some 3rd party api calls, you'll need to do alot better in the other departments (UX?) else there isn't much to showcase at this stage!</li>
+            </ol>
+        </div>
+    </div>
+</div>
+</div>
+
+
+<script type="text/javascript">
+  new Vue({
+      el: '#app',
+      data: {
+        allApps: true, //show all apps if not filtered
+        iosOnly: false,
+        andOnly: false,
+        appModal: false,
+        sitename: "AppsInSG",
+        tagline: "Showcasing apps designed and built in Singapore",
+        apps: [],
+
+        // Selected app.
+        appItem: {},
+        currentFilter: null,
+      },
+  });
+</script>
+
+</body>
+</html>
+
+
+
