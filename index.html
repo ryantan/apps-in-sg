@@ -158,7 +158,7 @@
         <div class="modal-body" v-if="appItem">
           <div class="app-modal__tagline">{{appItem.tagline}}</div>
           <div class="row">
-            <div class="col-12 col-md-6 app-modal__coy">By: {{appItem.coy}}</div>
+            <div class="col-12 col-md-6"><div class="app-modal__coy" v-if="appItem.coy">By: {{appItem.coy}}</div></div>
             <div class="col-12 col-md-6 clearfix">
               <div class="app-modal__platforms" v-if="appItem.tags">
                 <!--<span>Available on:</span>-->
