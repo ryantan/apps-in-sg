@@ -64,22 +64,29 @@ header h1{
 .app-item {
     position: relative;
     margin-bottom: 16px;
-    /*min-height: 174px;*/
     border-radius: 8px;
     overflow: hidden;
+    background-color: #F8F8F8;
+    cursor: pointer;
 }
 
 .app-title-bar {
-    display: none;
     position: absolute;
-    background-color: black;
+    background-color: rgba(0,0,0,0.8);
+    opacity: 0;
+    transition: opacity 0.1s ease-out, height 0.1s ease-out;
+    height: 50px;
 
     padding: 10px 10px;
     left: 0;
     right: 0;
     bottom: 0;
-    /*border-bottom-left-radius: 8px;*/
-    /*border-bottom-right-radius: 8px;*/
+    cursor: pointer;
+}
+
+.app-item:hover .app-title-bar {
+    opacity: 1;
+    height: 76px;
 }
 
 .app-title {
@@ -113,8 +120,6 @@ header h1{
 }
 
 .app-item:hover .app-title-bar {
-    display:block;
-    cursor: pointer;
 }
 
 .submit-item-wrapper {
