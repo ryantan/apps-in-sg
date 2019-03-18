@@ -68,8 +68,14 @@
               <span v-if="currentFilter==='desk'" class="sr-only">(current)</span>
             </a>
           </li>
+        </ul>
+
+        <ul class="navbar-nav ml-auto">
           <li class="nav-item">
-            <a class="nav-link" href="/faq">FAQ</a>
+            <a class="nav-link" href="#" @click="showAboutModal">About</a>
+          </li>
+          <li class="nav-item">
+            <a class="nav-link" href="#" @click="showFaqModal">FAQ</a>
           </li>
         </ul>
       </div>
@@ -168,6 +174,48 @@
       </div>
     </div>
   </footer>
+
+  <div id="aboutModal" class="modal fade" tabindex="-1" role="dialog" aria-labelledby="aboutModalLabel" aria-hidden="true">
+    <div class="modal-dialog" role="document">
+      <div class="modal-content">
+        <div class="modal-header">
+          <h4 class="modal-title" id="aboutModalLabel">About</h4>
+          <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span  aria-hidden="true">&times;</span></button>
+        </div>
+        <div class="modal-body">
+          <p>Apps in SG is a simple page dedicated to showcasing unique and outstanding Singapore Apps. Help spread the word to give some love to our local developers!</p>
+        </div>
+        <div class="modal-footer">
+          <!--<button class="btn" data-dismiss="modal" aria-hidden="true">Close</button>-->
+          <button class="btn btn-primary" data-dismiss="modal">Ok got it</button>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <div id="faqModal" class="modal fade" tabindex="-1" role="dialog" aria-labelledby="faqModalLabel" aria-hidden="true">
+    <div class="modal-dialog" role="document">
+      <div class="modal-content">
+        <div class="modal-header">
+          <h4 class="modal-title" id="faqModalLabel">FAQ</h4>
+          <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span  aria-hidden="true">&times;</span></button>
+        </div>
+        <div class="modal-body">
+          <h4><strong>Submitted your app but not yet listed?</strong></h4>
+          <p>While maintaining a certain quality of apps in the list, here are some common issues which may cause delays or rejections:</p>
+          <ol class="faq-list">
+            <li><strong>Wrong dimension or badly designed cover image</strong> - I want to present your apps in the best light possible, you do so too. 50% of the cover images currently listed have been created from scratch by myself over weekends so please understand if it should take a little longer :)</li>
+            <li><strong>Difficulty of verifying app origins</strong> - Some of the apps submitted have little or no contact info, or info on the company and it makes it hard for me to verify that the app is indeed made in Singapore. I usually keep them in my backlog when I see these apps.</li>
+            <li><strong>Overly simple utility apps</strong> - If your app is simply a wrapper for some 3rd party api calls, you'll need to do alot better in the other departments (UX?) else there isn't much to showcase at this stage!</li>
+          </ol>
+        </div>
+        <div class="modal-footer">
+          <!--<button class="btn" data-dismiss="modal" aria-hidden="true">Close</button>-->
+          <button class="btn btn-primary" data-dismiss="modal">Ok got it</button>
+        </div>
+      </div>
+    </div>
+  </div>
 </div>
 
 <script src="https://unpkg.com/vue"></script>
@@ -211,6 +259,22 @@
         this.appItem = appItem;
         $('#appModal').modal();
       },
+      showAboutModal: function () {
+        gtag('event', 'view_about', {
+          'event_action': 'view',
+          'event_category': 'engagement',
+          'event_label': 'about-app-in-sg',
+        });
+        $('#aboutModal').modal();
+      },
+      showFaqModal: function () {
+        gtag('event', 'view_faq', {
+          'event_action': 'view',
+          'event_category': 'engagement',
+          'event_label': 'faq',
+        });
+        $('#faqModal').modal();
+      },
       trackApp: function (appItem) {
         gtag('event', 'view_item', {
           'event_action': 'view',
@@ -248,7 +312,6 @@
           processed.push(newApp);
         }
 
-        console.log('processed:', processed);
         return processed;
       },
     },
@@ -261,8 +324,6 @@
     },
     computed: {
       filteredApps: function () {
-        console.log('filteredApps, this.currentFilter:', this.currentFilter);
-
         // If no filter defined, return whole list.
         if (!this.currentFilter) {
           return this.apps;
@@ -271,12 +332,9 @@
         const filtered = [];
         for (var i = 0; i < this.apps.length; i++) {
           if (this.apps[i].tags[this.currentFilter]) {
-
-            // console.log('Adding ', this.apps[i]);
             filtered.push(this.apps[i]);
           }
         }
-        console.log('filtered:', filtered, ', length:', filtered.length);
         return filtered;
       },
     }
