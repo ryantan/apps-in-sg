@@ -18,7 +18,7 @@
     <p class="tagline">{{tagline}}</p>
 
     <nav class="navbar navbar-expand-lg navbar-light bg-light">
-        <a class="navbar-brand" href="#">Apps in SG</a>
+        <a class="navbar-brand" href="#" @click.stop.prevent="showAll">Apps in SG</a>
         <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
             <span class="navbar-toggler-icon"></span>
         </button>
@@ -85,6 +85,10 @@
 
 
 </div>
+    <div class="loading-cover" v-if="apps.length === 0">
+        <!--Loading-->
+        <div class="lds-ring"><div></div><div></div><div></div><div></div></div>
+    </div>
 
 </div>
 
@@ -94,9 +98,6 @@
     new Vue({
         el: '#app',
         data: {
-            allApps: true, //show all apps if not filtered
-            iosOnly: false,
-            andOnly: false,
             appModal: false,
             sitename: "AppsInSG",
             tagline: "Showcasing apps designed and built in Singapore",
@@ -128,7 +129,7 @@
 
                   //this.apps = response.data;
                   const raw = response.data;
-                  const propcessed = [];
+                  const processed = [];
                   for (var i = 0; i < raw.length; i++){
                     var newApp = raw[i];
                     var title = newApp.title;
@@ -146,10 +147,10 @@
                     }
                     newApp.tags = newTags;
 
-                    propcessed.push(newApp);
+                    processed.push(newApp);
                   }
 
-                    this.apps = propcessed;
+                  this.apps = processed;
                 });
         },
         computed: {
