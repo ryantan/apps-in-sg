@@ -40,11 +40,11 @@ header h1{
     /*float: left;*/
 }
 .app-modal__platforms {
-    background-color: #333;
+    /*background-color: #333;*/
     float: right;
-    padding: 8px;
+    padding: 0;
     border-radius: 8px;
-    color: #F8F8F8;
+    /*color: #F8F8F8;*/
 }
 
 .app-modal__platforms .app-icon {
@@ -61,22 +61,24 @@ header h1{
     margin: 32px auto 0;
 }
 
-.app-item {
+.app {
+    margin-bottom: 24px;
+    border-radius: 8px;
+    overflow: hidden;
+    transition: box-shadow 0.2s ease-out;
+    background-color: #F2F2F2;
+    cursor: pointer;
+    box-shadow: 0 4px 24px rgba(0.3, 0.3, 0.3, 0.1);
+}
+
+.app__img-wrapper {
     position: relative;
     width: 100%;
     padding-bottom: 60%;
     height: 0;
-    margin-bottom: 16px;
-    border-radius: 8px;
-    overflow: hidden;
-    transition: box-shadow 0.2s ease-out;
-
-    background-color: #F2F2F2;
-    cursor: pointer;
-    box-shadow: 0 4px 24px rgba(0.0,0,0,0.0);
 }
 
-.app-item__inner {
+.app__img {
     position: absolute;
     width: 100%;
     height: 100%;
@@ -84,70 +86,69 @@ header h1{
     left: 0;
 }
 
-.app-title-bar {
-    position: absolute;
-    background-color: rgba(0,0,0,0.8);
-    opacity: 0;
-    transition: opacity 0.16s ease-out, height 0.1s ease-out;
-    height: 50px;
-
-    padding: 10px 10px;
-    left: 0;
-    right: 0;
-    bottom: 0;
-    cursor: pointer;
+.app__meta {
+    position: relative;
+    height: 128px;
+    padding: 16px;
+    background-color: #F8F8F8;
+    box-shadow: 0 6px 32px rgba(0, 0, 0, 0.4);
 }
 
-.app-item:hover {
-    box-shadow: 0 4px 24px rgba(0, 0, 0, 0.4);
+.app__title {
+    height: 24px;
+    margin-bottom: 8px;
+
+    font-size: 18px;
+    font-weight: 400;
+    line-height: 24px;
+    text-overflow: ellipsis;
+    color: #333;
 }
 
-.app-item:hover .app-title-bar {
-    opacity: 0.9;
-    height: 76px;
-    transition: opacity 0.25s ease-out, height 0.25s ease-out;
+.app__subtitle {
+    height: 36px;
+    margin-bottom: 8px;
+
+    font-size: 12px;
+    font-weight: 200;
+    line-height: 18px;
+    color: #787878;
+    overflow: hidden;
 }
 
-.app-title {
-    color: white;
+.app:hover {
+    box-shadow: 0 4px 32px rgba(0.3, 0.3, 0.3, 0.4);
 }
 
-.app-img {
-    width: 100%;
+.app__icons {
+    text-align: right;
+    float: right;
+    padding: 0;
+    opacity: 0.5;
+    transition: opacity 0.25s ease-out;
+}
+.app:hover .app__icons {
+    opacity: 0.95;
 }
 
-.app-icon {
+.app__icon {
     display: inline-block;
     width: 26px;
     height: 26px;
+    vertical-align: middle;
 
     color: white;
-    background-image:url("../images/platform-icons.png");
-    background-size: cover;
+    background-repeat: no-repeat;
+    background-size: contain;
 }
 
-.app-icons {
-    text-align: right;
-}
-
-.icon-apple {
-    background-position-x: -52px;
-}
-
-.icon-android {
-    background-position-x: -26px;
-}
-
-.icon-web {
-    background-position-x: -78px;
-}
-
-.icon-desktop {
-    background-position-x: -104px;
-}
-
-.app-item:hover .app-title-bar {
-}
+.icon-mobile-apple {background-image: url(../images/platform-ios.svg);}
+.icon-mobile-android {background-image: url(../images/platform-android.svg);}
+.icon-mobile-win {background-image: url(../images/platform-windows.svg);}
+.icon-web {background-image: url(../images/platform-web.svg);}
+.icon-desktop-win {background-image: url(../images/platform-windows.svg);}
+.icon-desktop-mac {background-image: url(../images/platform-mac.svg);}
+.icon-desktop-linux {background-image: url(../images/platform-linux.svg);}
 
 .submit-item-wrapper {
     position: relative;

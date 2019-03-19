@@ -93,17 +93,21 @@
 
     <div class="row">
       <div class="col-12 col-sm-6 col-lg-4" v-for="app in filteredApps" :key="app.key">
-        <div class="app-item" @click="showModal(app)">
-          <div class="app-item__inner">
-            <img class="app-img" data-src="http://appsinsg.com/apps/ryde.png" v-lazy="app.image"/>
-            <div class="app-title-bar">
-              <div class="app-title">{{app.title}}</div>
-              <div class="app-icons">
-                <div class="app-icon icon-apple" v-if="app.tags['mob-ios']"></div>
-                <div class="app-icon icon-android" v-if="app.tags['mob-and']"></div>
-                <div class="app-icon icon-web" v-if="app.tags['web']"></div>
-                <div class="app-icon icon-desktop" v-if="app.tags['desk']"></div>
-              </div>
+        <div class="app" @click="showModal(app)">
+          <div class="app__img-wrapper">
+            <img class="app__img" v-lazy="app.image"/>
+          </div>
+          <div class="app__meta">
+            <div class="app__title">{{app.title}}</div>
+            <div class="app__subtitle" v-if="app.tagline">{{app.tagline}}</div>
+            <div class="app__icons">
+              <div class="app__icon icon-mobile-apple" v-if="app.tags['mob-ios']"></div>
+              <div class="app__icon icon-mobile-android" v-if="app.tags['mob-and']"></div>
+              <div class="app__icon icon-mobile-win" v-if="app.tags['mob-win']"></div>
+              <div class="app__icon icon-web" v-if="app.tags['web']"></div>
+              <div class="app__icon icon-desktop-win" v-if="app.tags['desk-win']"></div>
+              <div class="app__icon icon-desktop-mac" v-if="app.tags['desk-mac']"></div>
+              <div class="app__icon icon-desktop-linux" v-if="app.tags['desk-lin']"></div>
             </div>
           </div>
         </div>
@@ -155,6 +159,7 @@
 
         <div class="modal-header">
           <h5 class="modal-title app-modal__title" id="appModalLabel">{{appItem.title}}</h5>
+          <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span  aria-hidden="true">&times;</span></button>
         </div>
 
         <div class="modal-body" v-if="appItem">
@@ -164,10 +169,13 @@
             <div class="col-12 col-md-6 clearfix">
               <div class="app-modal__platforms" v-if="appItem.tags">
                 <!--<span>Available on:</span>-->
-                <div class="app-icon icon-apple" v-if="appItem.tags['mob-ios']"></div>
-                <div class="app-icon icon-android" v-if="appItem.tags['mob-and']"></div>
-                <div class="app-icon icon-web" v-if="appItem.tags['web']"></div>
-                <div class="app-icon icon-desktop" v-if="appItem.tags['desk']"></div>
+                <div class="app__icon icon-mobile-apple" v-if="appItem.tags['mob-ios']"></div>
+                <div class="app__icon icon-mobile-android" v-if="appItem.tags['mob-and']"></div>
+                <div class="app__icon icon-mobile-win" v-if="appItem.tags['mob-win']"></div>
+                <div class="app__icon icon-web" v-if="appItem.tags['web']"></div>
+                <div class="app__icon icon-desktop-win" v-if="appItem.tags['desk-win']"></div>
+                <div class="app__icon icon-desktop-mac" v-if="appItem.tags['desk-mac']"></div>
+                <div class="app__icon icon-desktop-linux" v-if="appItem.tags['desk-lin']"></div>
               </div>
             </div>
           </div>
