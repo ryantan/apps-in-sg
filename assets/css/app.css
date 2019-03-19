@@ -63,18 +63,32 @@ header h1{
 
 .app-item {
     position: relative;
+    width: 100%;
+    padding-bottom: 60%;
+    height: 0;
     margin-bottom: 16px;
     border-radius: 8px;
     overflow: hidden;
+    transition: box-shadow 0.2s ease-out;
+
     background-color: #F2F2F2;
     cursor: pointer;
+    box-shadow: 0 4px 24px rgba(0.0,0,0,0.0);
+}
+
+.app-item__inner {
+    position: absolute;
+    width: 100%;
+    height: 100%;
+    top: 0;
+    left: 0;
 }
 
 .app-title-bar {
     position: absolute;
     background-color: rgba(0,0,0,0.8);
     opacity: 0;
-    transition: opacity 0.1s ease-out, height 0.1s ease-out;
+    transition: opacity 0.16s ease-out, height 0.1s ease-out;
     height: 50px;
 
     padding: 10px 10px;
@@ -84,9 +98,14 @@ header h1{
     cursor: pointer;
 }
 
+.app-item:hover {
+    box-shadow: 0 4px 24px rgba(0, 0, 0, 0.4);
+}
+
 .app-item:hover .app-title-bar {
-    opacity: 1;
+    opacity: 0.9;
     height: 76px;
+    transition: opacity 0.25s ease-out, height 0.25s ease-out;
 }
 
 .app-title {

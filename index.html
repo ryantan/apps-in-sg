@@ -94,14 +94,16 @@
     <div class="row">
       <div class="col-12 col-sm-6 col-lg-4" v-for="app in filteredApps" :key="app.key">
         <div class="app-item" @click="showModal(app)">
-          <img class="app-img" data-src="http://appsinsg.com/apps/ryde.png" v-lazy="app.image"/>
-          <div class="app-title-bar">
-            <div class="app-title">{{app.title}}</div>
-            <div class="app-icons">
-              <div class="app-icon icon-apple" v-if="app.tags['mob-ios']"></div>
-              <div class="app-icon icon-android" v-if="app.tags['mob-and']"></div>
-              <div class="app-icon icon-web" v-if="app.tags['web']"></div>
-              <div class="app-icon icon-desktop" v-if="app.tags['desk']"></div>
+          <div class="app-item__inner">
+            <img class="app-img" data-src="http://appsinsg.com/apps/ryde.png" v-lazy="app.image"/>
+            <div class="app-title-bar">
+              <div class="app-title">{{app.title}}</div>
+              <div class="app-icons">
+                <div class="app-icon icon-apple" v-if="app.tags['mob-ios']"></div>
+                <div class="app-icon icon-android" v-if="app.tags['mob-and']"></div>
+                <div class="app-icon icon-web" v-if="app.tags['web']"></div>
+                <div class="app-icon icon-desktop" v-if="app.tags['desk']"></div>
+              </div>
             </div>
           </div>
         </div>
