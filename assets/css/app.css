@@ -14,14 +14,38 @@ header h1{
     margin-bottom: 24px;
 }
 
-.logo {
+.header-desktop {
+    display: none;
+}
+
+.header-mobile {
+    margin-top: 16px;
+}
+@media screen and (min-width: 768px) {
+
+    .header-desktop {
+        display: block;
+    }
+
+    .header-mobile {
+        display: none;
+    }
+}
+
+.logo, .navbar__logo {
     width: 204px;
     height: 48px;
-    margin: 16px auto;
+    margin: 32px auto 16px;
 
     background-image:url("../images/logo.png");
     background-repeat: no-repeat;
     background-size: cover;
+}
+
+.navbar__logo {
+    height: 24px;
+    width: 102px;
+    margin: 0;
 }
 
 .tagline {
@@ -212,22 +236,14 @@ header h1{
     margin: 16px auto 32px;
 }
 
-.desktop-filter {
-    display: none;
+@media screen and (max-width: 320px) {
+
+    .mobile-filters button {
+        font-size: 12px;
+    }
 }
-@media screen and (min-width: 992px) {
 
-    .logo {
-        margin-top: 32px;
-    }
-
-    .mobile-filters {
-        display: none;
-    }
-
-    .desktop-filter {
-        display: block;
-    }
+@media screen and (min-width: 768px) {
 
     .submit-item h3 {
         font-size: 14px;

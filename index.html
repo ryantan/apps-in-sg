@@ -31,65 +31,90 @@
 
 <div id="app">
   <div class="container">
-    <div class="logo"></div>
-    <p class="tagline">{{tagline}}</p>
+    <div class="header-desktop">
+      <div class="logo"></div>
+      <p class="tagline">{{tagline}}</p>
 
-    <nav class="navbar navbar-expand-lg navbar-light bg-light">
-      <a class="navbar-brand" href="#" @click.stop.prevent="showAll">Apps in SG</a>
-      <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarSupportedContent"
-              aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
-        <span class="navbar-toggler-icon"></span>
-      </button>
+      <nav class="navbar navbar-expand-lg navbar-light bg-light">
+        <a class="navbar-brand" href="#" @click.stop.prevent="showAll">Apps in SG</a>
+        <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarSupportedContent"
+                aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+          <span class="navbar-toggler-icon"></span>
+        </button>
 
-      <div class="collapse navbar-collapse" id="navbarSupportedContent">
-        <ul class="navbar-nav mr-auto">
-          <li :class="['nav-item', 'desktop-filter', currentFilter ? '' : 'isActive']">
-            <a class="nav-link" href="#" @click.stop="showAll">All
-              <span v-if="!currentFilter" class="sr-only">(current)</span>
-            </a>
-          </li>
-          <li :class="['nav-item', 'desktop-filter', currentFilter === 'mob-ios' ? 'isActive' : '']">
-            <a class="nav-link" href="#ios" @click.stop="showiOS">iOS
-              <span v-if="currentFilter==='mob-ios'" class="sr-only">(current)</span>
-            </a>
-          </li>
-          <li :class="['nav-item', 'desktop-filter', currentFilter === 'mob-and' ? 'isActive' : '']">
-            <a class="nav-link" href="#android" @click.stop="showAnd">Android
-              <span v-if="currentFilter==='mob-and'" class="sr-only">(current)</span>
-            </a>
-          </li>
-          <li :class="['nav-item', 'desktop-filter', currentFilter === 'web' ? 'isActive' : '']">
-            <a class="nav-link" href="#web" @click.stop="showWeb">Web
-              <span v-if="currentFilter==='web'" class="sr-only">(current)</span>
-            </a>
-          </li>
-          <li :class="['nav-item', 'desktop-filter', currentFilter === 'desk' ? 'isActive' : '']">
-            <a class="nav-link" href="#desktop" @click.stop="showDesktop">Desktop
-              <span v-if="currentFilter==='desk'" class="sr-only">(current)</span>
-            </a>
-          </li>
-        </ul>
+        <div class="collapse navbar-collapse" id="navbarSupportedContent">
+          <ul class="navbar-nav mr-auto">
+            <li :class="['nav-item', 'desktop-filter', currentFilter ? '' : 'isActive']">
+              <a class="nav-link" href="#" @click.stop="showAll">All
+                <span v-if="!currentFilter" class="sr-only">(current)</span>
+              </a>
+            </li>
+            <li :class="['nav-item', 'desktop-filter', currentFilter === 'mob-ios' ? 'isActive' : '']">
+              <a class="nav-link" href="#ios" @click.stop="showiOS">iOS
+                <span v-if="currentFilter==='mob-ios'" class="sr-only">(current)</span>
+              </a>
+            </li>
+            <li :class="['nav-item', 'desktop-filter', currentFilter === 'mob-and' ? 'isActive' : '']">
+              <a class="nav-link" href="#android" @click.stop="showAnd">Android
+                <span v-if="currentFilter==='mob-and'" class="sr-only">(current)</span>
+              </a>
+            </li>
+            <li :class="['nav-item', 'desktop-filter', currentFilter === 'web' ? 'isActive' : '']">
+              <a class="nav-link" href="#web" @click.stop="showWeb">Web
+                <span v-if="currentFilter==='web'" class="sr-only">(current)</span>
+              </a>
+            </li>
+            <li :class="['nav-item', 'desktop-filter', currentFilter === 'desk' ? 'isActive' : '']">
+              <a class="nav-link" href="#desktop" @click.stop="showDesktop">Desktop
+                <span v-if="currentFilter==='desk'" class="sr-only">(current)</span>
+              </a>
+            </li>
+          </ul>
 
-        <ul class="navbar-nav ml-auto">
-          <li class="nav-item">
-            <a class="nav-link" href="#" @click="showAboutModal">About</a>
-          </li>
-          <li class="nav-item">
-            <a class="nav-link" href="#" @click="showFaqModal">FAQ</a>
-          </li>
-        </ul>
-      </div>
-    </nav>
+          <ul class="navbar-nav ml-auto">
+            <li class="nav-item">
+              <a class="nav-link" href="#" @click="showAboutModal">About</a>
+            </li>
+            <li class="nav-item">
+              <a class="nav-link" href="#" @click="showFaqModal">FAQ</a>
+            </li>
+          </ul>
+        </div>
+      </nav>
+    </div>
+    <div class="header-mobile">
+      <nav class="navbar navbar-expand-lg navbar-light bg-light fixed-top-nah mobile-navbar">
+        <a class="navbar-brand" href="#" @click.stop.prevent="showAll">
+          <div class="navbar__logo"></div>
+        </a>
+        <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarMobile"
+                aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+          <span class="navbar-toggler-icon"></span>
+        </button>
 
-    <div class="mobile-filters">
-      <div class="btn-group btn-block" role="group" aria-label="Mobile filters">
-        <button type="button" class="btn btn-secondary" @click="showAll">All</button>
-        <button type="button" class="btn btn-secondary" @click="showiOS">iOS</button>
-        <button type="button" class="btn btn-secondary" @click="showAnd">Android</button>
-        <button type="button" class="btn btn-secondary" @click="showWeb">Web</button>
-        <button type="button" class="btn btn-secondary" @click="showDesktop">Desktop</button>
+        <div class="collapse navbar-collapse" id="navbarMobile">
+          <ul class="navbar-nav ml-auto">
+            <li class="nav-item">
+              <a class="nav-link" href="#" @click="showAboutModal">About</a>
+            </li>
+            <li class="nav-item">
+              <a class="nav-link" href="#" @click="showFaqModal">FAQ</a>
+            </li>
+          </ul>
+        </div>
+      </nav>
+
+      <div class="mobile-filters">
+        <div class="btn-group btn-block" role="group" aria-label="Mobile filters">
+          <button type="button" class="btn btn-secondary" @click="showAll">All</button>
+          <button type="button" class="btn btn-secondary" @click="showiOS">iOS</button>
+          <button type="button" class="btn btn-secondary" @click="showAnd">Android</button>
+          <button type="button" class="btn btn-secondary" @click="showWeb">Web</button>
+          <button type="button" class="btn btn-secondary" @click="showDesktop">Desktop</button>
+        </div>
       </div>
     </div>
+
 
     <div class="row">
       <div class="col-12 col-sm-6 col-lg-4" v-for="app in filteredApps" :key="app.key">
