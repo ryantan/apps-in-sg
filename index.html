@@ -35,8 +35,8 @@
       <div class="logo"></div>
       <p class="tagline">{{tagline}}</p>
 
-      <nav class="navbar navbar-expand-lg navbar-light bg-light">
-        <a class="navbar-brand" href="#" @click.stop.prevent="showAll">Apps in SG</a>
+      <nav class="navbar navbar-expand-md navbar-light bg-light">
+        <!--<a class="navbar-brand" href="#" @click.stop.prevent="showAll">Apps in SG</a>-->
         <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarSupportedContent"
                 aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
           <span class="navbar-toggler-icon"></span>
@@ -44,31 +44,26 @@
 
         <div class="collapse navbar-collapse" id="navbarSupportedContent">
           <ul class="navbar-nav mr-auto">
-            <li :class="['nav-item', 'desktop-filter', currentFilter ? '' : 'isActive']">
-              <a class="nav-link" href="#" @click.stop="showAll">All
-                <span v-if="!currentFilter" class="sr-only">(current)</span>
-              </a>
-            </li>
-            <li :class="['nav-item', 'desktop-filter', currentFilter === 'mob-ios' ? 'isActive' : '']">
-              <a class="nav-link" href="#ios" @click.stop="showiOS">iOS
-                <span v-if="currentFilter==='mob-ios'" class="sr-only">(current)</span>
-              </a>
-            </li>
-            <li :class="['nav-item', 'desktop-filter', currentFilter === 'mob-and' ? 'isActive' : '']">
-              <a class="nav-link" href="#android" @click.stop="showAnd">Android
-                <span v-if="currentFilter==='mob-and'" class="sr-only">(current)</span>
-              </a>
-            </li>
-            <li :class="['nav-item', 'desktop-filter', currentFilter === 'web' ? 'isActive' : '']">
-              <a class="nav-link" href="#web" @click.stop="showWeb">Web
-                <span v-if="currentFilter==='web'" class="sr-only">(current)</span>
-              </a>
-            </li>
-            <li :class="['nav-item', 'desktop-filter', currentFilter === 'desk' ? 'isActive' : '']">
-              <a class="nav-link" href="#desktop" @click.stop="showDesktop">Desktop
-                <span v-if="currentFilter==='desk'" class="sr-only">(current)</span>
-              </a>
-            </li>
+            <a :class="['nav-item', 'nav-link', currentFilter ? '' : 'active']" href="#" @click.stop="showAll">
+              All
+              <span v-if="!currentFilter" class="sr-only">(current)</span>
+            </a>
+            <a :class="['nav-item', 'nav-link', currentFilter === 'mob-ios' ? 'active' : '']" href="#ios" @click.stop="showiOS">
+              iOS
+              <span v-if="currentFilter==='mob-ios'" class="sr-only">(current)</span>
+            </a>
+            <a :class="['nav-item', 'nav-link', currentFilter === 'mob-and' ? 'active' : '']" href="#android" @click.stop="showAnd">
+              Android
+              <span v-if="currentFilter==='mob-and'" class="sr-only">(current)</span>
+            </a>
+            <a :class="['nav-item', 'nav-link', currentFilter === 'web' ? 'active' : '']" href="#web" @click.stop="showWeb">
+              Web
+              <span v-if="currentFilter==='web'" class="sr-only">(current)</span>
+            </a>
+            <a :class="['nav-item', 'nav-link', currentFilter === 'desk' ? 'active' : '']" href="#desktop" @click.stop="showDesktop">
+              Desktop
+              <span v-if="currentFilter==='desk'" class="sr-only">(current)</span>
+            </a>
           </ul>
 
           <ul class="navbar-nav ml-auto">
@@ -139,7 +134,10 @@
         </div>
       </div>
       <div class="col-12 col-sm-6 col-lg-4">
-        <div class="app-item submit-item-wrapper">
+        <div class="app submit-item-wrapper">
+          <div class="submit-item-spacer"></div>
+          <div class="submit-item-spacer2"></div>
+
           <div class="submit-item">
             <a href="https://docs.google.com/forms/d/1zf-3X5-6UCs86-WKP28Hun5rip7x1FuMY60648pjjXI/viewform"
                target="_blank" class="submit-link">
